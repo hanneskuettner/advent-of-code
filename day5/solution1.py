@@ -1,5 +1,3 @@
-#!/usr/bin/env python3
-
 ins = [int(l.strip()) for l in open("input.txt").readlines()]
 curr = 0
 steps = 0

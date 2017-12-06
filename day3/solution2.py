@@ -1,4 +1,3 @@
-#!/usr/bin/env python3
 import sys
 req = int(sys.argv[1])
 

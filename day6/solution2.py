@@ -1,4 +1,3 @@
-
 memory = [int(e) for e in open('input.txt').read().split()]
 memory = [2,4,1,2]
 
