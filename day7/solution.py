@@ -14,8 +14,8 @@ def build_tree(lines):
 			for i, child in enumerate(node[1]):
 				node[1][i] = roots[child]
 				del roots[child]
-	print(roots.keys()[0])
-	return roots.values()[0]
+	print(list(roots.keys())[0])
+	return list(roots.values())[0]
 	
 
 def tree_height(tree):
@@ -24,7 +24,6 @@ def tree_height(tree):
 	return 1
 
 def weights(tree):
-	print(tree)
 	if len(tree) > 1:
 		ws = []
 		for node in tree[1]:
@@ -35,6 +34,7 @@ def weights(tree):
 		for w in ws:
 			if w != l:
 				print(w - l)
+				print([t[0] for t in tree[1]])
 				print(ws)
 				exit()
 		return ws
@@ -43,20 +43,6 @@ def weights(tree):
 
 
 
-lines1 = list(parse_line(line) for line in open("input.txt").readlines())
+lines = list(parse_line(line) for line in open("input.txt").readlines())
 
-lines2 = list(parse_line(line) for line in """pbga (66)
-xhth (57)
-ebii (61)
-havc (66)
-ktlj (57)
-fwft (72) -> ktlj, cntj, xhth
-qoyq (66)
-padx (45) -> pbga, havc, qoyq
-tknk (41) -> ugml, padx, fwft
-jptl (61)
-ugml (68) -> gyxo, ebii, jptl
-gyxo (61)
-cntj (57)""".split('\n'))
-
-weights(build_tree(lines1))
+weights(build_tree(lines))
