@@ -1,16 +1,17 @@
 # load instruction and replace dec/inc with python equivalents -=/+=
-instructions = [l.replace(' dec ', ' -= ').replace(' inc ', '+=') for l in open("input.txt").readlines()]
+instructions = [l.replace(' dec ', ' -= ').replace(' inc ', ' += ').rstrip() for l in open("input.txt").readlines()]
 
+ns = {}
 # init global variables to 0
-for __i in instructions:
-	globals()[__i.split()[0]] = 0
+for i in instructions:
+	ns[i.split()[0]] = 0
 
 # execute each instruction. <3 python
-__m = 0
-for __i in instructions:
-	exec(__i.rstrip() + ' else 0')
-	__m = max([__g for __g in globals().values() if type(__g) is int])
+m = 0
+for i in instructions:
+	exec(i + ' else 0', ns)
+	m = max([g for g in ns.values() if type(g) is int] + [m])
 
 
-print(max(__g for __k, __g in globals().items() if __k != '__m' and type(__g) is int))
-print(__m)
+print(max(g for g in ns.values() if type(g) is int))
+print(m)
