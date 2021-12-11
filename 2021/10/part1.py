@@ -23,6 +23,7 @@ for line in input.splitlines():
     else:
       if c != mirror[stack.pop(-1)]:
         score += scores[c]
+        break
 
 result = score
 print("Result: {}".format(result))
