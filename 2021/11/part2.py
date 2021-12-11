@@ -7,10 +7,7 @@ while True:
   step += 1
   octopi += 1
   flashed = np.zeros_like(octopi, dtype=bool)
-  while True:
-    next_flashers = np.argwhere((octopi > 9) & (flashed == False))
-    if len(next_flashers) == 0:
-      break
+  while (next_flashers := np.argwhere((octopi > 9) & (flashed == False))).size > 0:
     for x, y in next_flashers:
       flashed[x, y] = True
       x_min, x_max = max(0, x - 1), min(x + 1, 9)
