@@ -6,24 +6,25 @@ cave = nx.Graph()
 for line in input.splitlines():
   cave.add_edge(*line.split('-'))
 
-queue = [["start"]]
+queue = [("start", set(["start"]), False)]
 path_count = 0
 while queue:
-  path = queue.pop()
+  current, visited, double = queue.pop()
   new_paths = []
   
-  if path[-1] == "end":
+  if current == "end":
     path_count += 1
     continue
   
-  for label, nbr in cave[path[-1]].items():
+  for label in cave[current]:
     if label == "start":
       continue
-    if (label not in path 
-        or label.upper() == label 
-        or (label in path and all(l.upper() == l or path.count(l) < 2 for l in path))):
+    if (label not in visited
+        or label.isupper()
+        or (not double and label in visited)):
       # unvisited small cave or large cave
-      new_paths.append(path + [label])
+      new_paths.append((label, visited | set([label]), double or label.islower() and label in visited))
+      
   
   if new_paths:
     queue.extend(new_paths)
