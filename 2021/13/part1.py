@@ -2,7 +2,6 @@ import numpy as np
 
 input = open('input.txt', 'r').read().strip()
 
-dots = np.genfromtxt("input.txt", delimiter=",", invalid_raise=False, dtype=int)
 folding_instructions = []
 for l in input.splitlines():
   if l.startswith("f"):
@@ -12,7 +11,10 @@ for l in input.splitlines():
     elif "y" in l:
       folding_instructions.append((0, p))
 
-paper = np.zeros((np.max(dots[:, 1]) + 1, np.max(dots[:, 0]) + 1), dtype=bool)
+dots = np.genfromtxt("input.txt", delimiter=",", skip_footer=len(folding_instructions), dtype=int)
+
+max_x, max_y = folding_instructions[0][0] * 2, folding_instructions[1][1] * 2
+paper = np.zeros((max_y + 1, max_x + 1), dtype=bool)
 for x, y in dots:
   paper[y, x] = True
   

@@ -13,7 +13,8 @@ for l in input.splitlines():
 
 dots = np.genfromtxt("input.txt", delimiter=",", skip_footer=len(folding_instructions), dtype=int)
 
-paper = np.zeros((np.max(dots[:, 1]) + 1, np.max(dots[:, 0]) + 1), dtype=bool)
+max_x, max_y = folding_instructions[0][0] * 2, folding_instructions[1][1] * 2
+paper = np.zeros((max_y + 1, max_x + 1), dtype=bool)
 for x, y in dots:
   paper[y, x] = True
   
