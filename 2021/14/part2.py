@@ -5,10 +5,14 @@ input = open('input.txt', 'r').read().strip().splitlines()
 
 polymer = input[0]
 
-replacements = dict()
-for l in input[2:]:
-  k, r = l.split(" -> ")
-  replacements[tuple(k)] = r
+replacements = {pair: element
+        for pair, element
+        in (
+            l.strip().split(' -> ')
+            for l
+            in input[2:]
+        )
+}
 
 pairs = Counter(zip(polymer, polymer[1:]))
 
