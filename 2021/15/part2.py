@@ -1,23 +1,15 @@
 import networkx as nx
+import numpy as np
 
-cavern = nx.Graph()
-lines = open('input.txt').read().strip().splitlines()
+grid = np.genfromtxt("input.txt", dtype=int, delimiter=1)
+grid = np.block([[grid + i + j for i in range(5)] for j in range(5)])
+grid[grid > 9] -= 9
 
-h, w = len(lines), len(lines[0])
-for mi in range(5):
-  for mj in range(5):
-    for i, l in enumerate(lines):
-      for j, r in enumerate(l.strip()):
-        risk = int(r)
-        risk = (risk + mi + mj) // 10 + (risk + mi + mj) % 10
-        pi, pj = mi * w + i, mj * h + j
-        cavern.add_node((pi, pj), risk=risk)
-        if pi > 0:
-          cavern.add_edge((pi-1, pj), (pi, pj))
-        if pj > 0:
-          cavern.add_edge((pi, pj-1), (pi, pj))
+cavern = nx.grid_2d_graph(*grid.shape, create_using=nx.DiGraph)
+for (_, v), e in cavern.edges.items():
+    e["risk"] = grid[v]
+    
+source, *_, target = cavern.nodes
+length = nx.shortest_path_length(cavern, source, target, weight="risk")
 
-target = pi, pj
-path = nx.algorithms.shortest_path(cavern, (0, 0), target, weight=lambda u, v, d: cavern.nodes[u]["risk"] + cavern.nodes[v]["risk"])
-
-print(sum(cavern.nodes[n]["risk"] for n in path) - cavern.nodes[(0, 0)]["risk"])
+print(length)
