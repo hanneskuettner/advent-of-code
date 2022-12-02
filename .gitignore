@@ -103,3 +103,7 @@ ENV/
 .vscode
 
 .DS_Store
+
+# aoc cli 
+templates/
+wip.py
